@@ -1,0 +1,57 @@
+<ion-view view-title="Buttons Game">
+  <ion-content class="background-color">
+    <h3 class="title color-white">Tips : Tap on every buttons you can see !</h3>
+    <h4 class="title color-white" ng-if="countdown>0 && !start && !end">Start in {{countdown}} s</h4>
+    <h4 class="title color-white" ng-if="countdown>0 && start && !end">{{countdown}} s</h4>
+    <h4 class="title color-white" ng-if="end && start">Your final score : {{points}}</h4>
+    <div class="row">
+	  <div class="col"><button class="button button-positive" ng-if="buttonNumber==1" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-full button-royal" ng-if="buttonNumber==2" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-full button-energized" ng-if="buttonNumber==3" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-assertive" ng-if="buttonNumber==4" ng-click="addPoints()">Tap</button></div>
+	</div>
+
+	<div class="row">
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	</div>
+
+	<div class="row">
+	  <div class="col"><button class="button button-calm" ng-if="buttonNumber==5" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-full button-stable" ng-if="buttonNumber==6" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-dark" ng-if="buttonNumber==7" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-full button-assertive" ng-if="buttonNumber==8" ng-click="addPoints()">Tap</button></div>
+	</div>
+
+	<div class="row">
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	</div>
+
+	<div class="row">
+	  <div class="col"><button class="button button-full button-positive" ng-if="buttonNumber==9" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-full button-balanced" ng-if="buttonNumber==10" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-royal" ng-if="buttonNumber==11" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-calm" ng-if="buttonNumber==12" ng-click="addPoints()">Tap</button></div>
+	</div>
+
+	<div class="row">
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	  <div class="col">&nbsp;</div>
+	</div>
+
+	<div class="row">
+	  <div class="col"><button class="button button-royal" ng-if="buttonNumber==13" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-dark" ng-if="buttonNumber==14" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-energized" ng-if="buttonNumber==15" ng-click="addPoints()">Tap</button></div>
+	  <div class="col"><button class="button button-balanced" ng-if="buttonNumber==16" ng-click="addPoints()">Tap</button></div>
+	</div>
+
+  </ion-content>
+</ion-view>

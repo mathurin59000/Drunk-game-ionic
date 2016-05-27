@@ -64,16 +64,95 @@ angular.module('App.controllers', [])
   };
 })
 
-.controller('GameCtrl', function($scope, SocketService, $state) {
+.controller('GameCtrl', function($scope, SocketService, $state, $http) {
   console.log('GameCtrl');
   var player = $state.params.player;
   var socket = SocketService.getSocket(player.ip);
+  $scope.results = [];
 
   socket.on('reset', function(){
     SocketService.disconnectSocket();
     window.location.href="/#/app/home";
     window.location.reload();
+  })
+  .on('startButtons', function(){
+    $state.go('app.buttons', {player: player});
   });
+
+})
+
+.controller('ButtonsCtrl', function($scope, SocketService, $state) {
+  console.log('ButtonsCtrl');
+  var player = $state.params.player;
+  console.log(player);
+  var socket = SocketService.getSocket(player.ip);
+  $scope.points = 0;
+  $scope.start = false;
+  $scope.end = false;
+
+  socket.on('reset', function(){
+    SocketService.disconnectSocket();
+    window.location.href="/#/app/home";
+    window.location.reload();
+  })
+  .on('stopButtons', function(results){
+    console.log('retour stopButtons');
+    $state.go('app.game', {player: player});
+  });
+
+  function getRandomArbitrary(min, max) {
+    return Math.floor((Math.random() * max) + min);
+  }
+
+  $scope.addPoints = function(){
+    $scope.buttonNumber = getRandomArbitrary(1, 16);
+    $scope.points++;
+  };
+
+  function chronoGame(seconds){
+    console.log(seconds);
+    setTimeout(function(){ 
+      if(seconds>0){
+        $scope.countdown = seconds;
+        chronoGame(seconds-1);
+      }
+      else if(seconds==0){
+        $scope.buttonNumber = 0;
+        console.log('Your score is '+$scope.points);
+        $scope.end = true;
+        socket.emit('endButtons', $scope.points);
+        /*setTimeout(function(){ 
+          $state.go('app.game', {player: player});
+        }, 5000);*/
+      }
+      else{
+        console.log('Your final score is '+$scope.points);
+      }
+      $scope.$apply();
+    }, 1000);
+  }
+
+  function chrono(seconds){
+    setTimeout(function(){ 
+      if(seconds>0){
+        $scope.countdown = seconds;
+        chrono(seconds-1);
+      }
+      else if(seconds==0){
+        $scope.countdown = "Go !";
+        $scope.start = true;
+        chrono(seconds-1);
+      }
+      else{
+        $scope.buttonNumber = getRandomArbitrary(1, 16);
+        console.log('chronoGame lancé !');
+        chronoGame(20);
+      }
+      $scope.$apply();
+    }, 1000);
+  }
+  console.log("chrono lancé !");
+  chrono(10);
 
 })
 

@@ -54,6 +54,19 @@ angular.module('App', ['ionic', 'App.controllers'])
     }
   })
 
+  .state('app.buttons', {
+    url: '/buttons',
+    params: {
+      player: null
+    },
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/buttons.html',
+        controller: 'ButtonsCtrl'
+      }
+    }
+  })
+
   .state('app.playlists', {
     url: '/playlists',
     views: {
