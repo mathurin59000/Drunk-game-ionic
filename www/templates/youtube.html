@@ -1,0 +1,18 @@
+<ion-view view-title="Blind Test Youtube">
+  <ion-content class="background-color">
+    <h3 class="title color-white">Tips : Find the video's title !</h3>
+    <h4 class="title color-white" ng-if="countdown>0 && !start && !end">Start in {{countdown}} s</h4>
+    <h4 class="title color-white" ng-if="countdown>0 && start && !end">{{countdown}} s</h4>
+    <h4 class="title color-white" ng-if="end && start">Your time : {{points}}</h4>
+    <div class="row">
+	  <div class="col"><button class="button button-full button-stable" ng-if="start" ng-click="addPoints()">1</button></div>
+	  <div class="col"><button class="button button-full button-stable" ng-if="start" ng-click="addPoints()">2</button></div>
+	</div>
+
+	<div class="row">
+	  <div class="col"><button class="button button-full button-stable" ng-if="start" ng-click="addPoints()">3</button></div>
+	  <div class="col"><button class="button button-full button-stable" ng-if="start" ng-click="addPoints()">4</button></div>
+	</div>
+
+  </ion-content>
+</ion-view>

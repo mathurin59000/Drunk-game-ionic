@@ -77,6 +77,9 @@ angular.module('App.controllers', [])
   })
   .on('startButtons', function(){
     $state.go('app.buttons', {player: player});
+  })
+  .on('startYoutube', function(){
+    $state.go('app.youtube', {player: player});
   });
 
 })
@@ -105,7 +108,7 @@ angular.module('App.controllers', [])
   }
 
   $scope.addPoints = function(){
-    $scope.buttonNumber = getRandomArbitrary(1, 16);
+    $scope.buttonNumber = getRandomArbitrary(1, 24);
     $scope.points++;
   };
 
@@ -144,7 +147,7 @@ angular.module('App.controllers', [])
         chrono(seconds-1);
       }
       else{
-        $scope.buttonNumber = getRandomArbitrary(1, 16);
+        $scope.buttonNumber = getRandomArbitrary(1, 24);
         console.log('chronoGame lancé !');
         chronoGame(20);
       }
@@ -156,17 +159,65 @@ angular.module('App.controllers', [])
 
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  console.log('PlaylistsCtrl');
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('YoutubeCtrl', function($scope, SocketService, $state) {
+  console.log('YoutubeCtrl');
+  var player = $state.params.player;
+  console.log(player);
+  var socket = SocketService.getSocket(player.ip);
+  $scope.points = 0;
+  $scope.start = false;
+  $scope.end = false;
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+  socket.on('reset', function(){
+    SocketService.disconnectSocket();
+    window.location.href="/#/app/home";
+    window.location.reload();
+  })
+  .on('stopYoutube', function(results){
+    console.log('retour stopButtons');
+    $state.go('app.game', {player: player});
+  });
+
+  function youtubeGame(seconds){
+    console.log(seconds);
+    setTimeout(function(){ 
+      if(seconds>0){
+        $scope.countdown = seconds;
+        youtubeGame(seconds-1);
+      }
+      else if(seconds==0){
+        console.log('Your score is '+$scope.points);
+        $scope.end = true;
+        socket.emit('endYoutube', $scope.points);
+        /*setTimeout(function(){ 
+          $state.go('app.game', {player: player});
+        }, 5000);*/
+      }
+      else{
+        console.log('Your final score is '+$scope.points);
+      }
+      $scope.$apply();
+    }, 1000);
+  }
+
+  function chrono(seconds){
+    setTimeout(function(){ 
+      if(seconds>0){
+        $scope.countdown = seconds;
+        chrono(seconds-1);
+      }
+      else if(seconds==0){
+        $scope.countdown = "Go !";
+        $scope.start = true;
+        chrono(seconds-1);
+      }
+      else{
+        console.log('Youtube lancé !');
+        youtubeGame(10);
+      }
+      $scope.$apply();
+    }, 1000);
+  }
+  console.log("chrono lancé !");
+  chrono(10);  
 });
